@@ -25,10 +25,10 @@ function getAPOD(checkEvent){
         //checking if user has selected a date before submitting
         //if not the apodTitle is changed
         if(apodDate){
-            apodTitle = 'The Astronomy Picture from ' + apodDateStr;
+            apodTitle = 'The APOD from ' + apodDateStr;
         }
         else {
-            apodTitle = 'Please select a date before submitting';
+            apodTitle = 'Select a date before submitting';
         }
     }
 
@@ -39,14 +39,14 @@ function getAPOD(checkEvent){
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            if(data.media_type == 'image'){
+            if(data.media_type === 'image'){
                 //only displaying the image element
                 document.getElementById("apodVideo").style.display = 'none';
                 document.getElementById("apodImage").style.display = 'block';
                 //get picture hd url
                 document.getElementById("apodImage").src = data.hdurl;
             }
-            else if(data.media.type == 'video'){
+            else if(data.media.type === 'video'){
                 //only displaying the iframe element
                 document.getElementById("apodImage").style.display = 'none';
                 document.getElementById("apodVideo").style.display = 'block';
