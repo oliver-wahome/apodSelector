@@ -22,17 +22,28 @@
         </div>
 
         <div class="row text-center pt-2">
-            <h4>Select the APOD of any date</h4>
+            
         </div>
 
         <div class="row d-flex justify-content-center text-center m-3">
-            <div class="col-md-4">
+            <div class="col-md-4 border">
+                <h4>Select the APOD of any date</h4>
                 <div class="input-group">
                     <label class="input-group-text" for="dateInput">Select date</label>
                     <input id="dateInput" class="form-control" type="date">
-                    <button id="dateInputBtn" class="btn btn-outline-secondary" onclick="getAPOD('onclick')">submit</button>
+                    <button id="apodDateInputBtn" class="btn btn-outline-secondary" onclick="getAPOD('onclick')">submit</button>
                 </div>
             </div>
+
+            <div class="col-md-4 border">
+                <h4>Enter Date of Birth</h4>
+                <div class="input-group">
+                    <label class="input-group-text" for="birthdayInput">Select date</label>
+                    <input id="birthdayInput" class="form-control" type="date">
+                    <button id="birthdayInputBtn" class="btn btn-outline-secondary" onclick="getBirthdayAPODs()">submit</button>
+                </div>
+            </div>
+
         </div>
 
         <div class="row text-center pt-2">
@@ -50,7 +61,6 @@
                     <p id="apodDescription"></p>
                 </div>
             </div>
-
         </div>
     </div>
 

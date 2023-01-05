@@ -13,7 +13,7 @@ function getAPOD(checkEvent){
     //checking whether the function was called onload or onclick
     if(checkEvent === 'onload'){
         url = 'https://api.nasa.gov/planetary/apod?api_key=GTgDxMg6JEfbQPwYdlLPfygL8XDmEVWp8HWkzNnm';
-        apodTitle = 'Today\'s Astronomy Picture';
+        apodTitle = 'Today\'s APOD';
     }
     else if(checkEvent === 'onclick'){
         apodDate = document.getElementById("dateInput").value;
