@@ -1,13 +1,15 @@
 /**
  * Astronomy Picture of the Day Selector program
  */
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 //this function fetches data of the current APOD(Astronomy Picture of the Day) from NASA API.
 //It then adds that information to html elements to be output to the DOM
 function getAPOD(checkEvent){
     let url = '';
     let apodTitle = '';
     let apodDate = '';
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let apodDateStr = '';
 
     //checking whether the function was called onload or onclick
@@ -16,7 +18,7 @@ function getAPOD(checkEvent){
         apodTitle = 'Today\'s APOD';
     }
     else if(checkEvent === 'onclick'){
-        apodDate = document.getElementById("dateInput").value;
+        apodDate = document.getElementById("apodDateInput").value;
         //changing the apodDate format from YYYY/MM/DD to DD/MM/YYYY
         apodDateStr = `${apodDate.substring(8)}/${months[Number(apodDate.substring(5,7))-1]}/${apodDate.substring(0,4)}`;
         //adding the date query parameter to the url and assigning it the value of apodDate
@@ -61,6 +63,38 @@ function getAPOD(checkEvent){
             console.log(err);
         });
 }
-
 //this statement calls the getAPOD function onload of the window
 window.onload = getAPOD('onload');
+
+//this function fetches data from NASA API to get APODs released on a user's bday since their DOB
+//or since the date of the first APOD(June 1995)
+function getBirthdayAPODs(){
+    let bday = document.getElementById("birthdayInput").value;
+    const bdayDate = new Date(bday);
+    let bdYear = bdayDate.getFullYear();
+    var bdMonth = bdayDate.getMonth();
+    let bdDay = bdayDate.getDate();
+    const currentDate = new Date();
+    let curYear = currentDate.getFullYear();
+    let curMonth = currentDate.getMonth();
+    let curDay = currentDate.getDate();
+    const firstApodDate = new Date("1995-06-16");
+    let apodYear = firstApodDate.getFullYear();
+    let apodMonth = firstApodDate.getMonth();
+    let apodDay = firstApodDate.getDate();
+
+    //console.log(bdayDate.toString());
+    //getting every birthday after June 16th 1995
+    if(bdYear >= apodYear){
+        while(bdYear <= curYear){
+            console.log(`${bdDay}/${months[bdMonth]}/${bdYear}`);
+            bdYear += 1;
+        }
+    }
+    else{
+        while(counterYear <= curYear){
+            console.log(`${bdDay}/${months[bdMonth]}/${bdYear}`);
+            bdYear += 1;
+        }
+    }
+}

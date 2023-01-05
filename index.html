@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NASA API</title>
+    <title>APOD Selector</title>
 
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1493/1493169.png" type="image/x-icon" />
 
@@ -26,19 +26,19 @@
         </div>
 
         <div class="row d-flex justify-content-center text-center m-3">
-            <div class="col-md-4 border">
-                <h4>Select the APOD of any date</h4>
+            <div class="col-md-5 py-2 border">
+                <h4>Get the APOD of any date</h4>
                 <div class="input-group">
-                    <label class="input-group-text" for="dateInput">Select date</label>
-                    <input id="dateInput" class="form-control" type="date">
+                    <label class="input-group-text" for="apodDateInput">Select date</label>
+                    <input id="apodDateInput" class="form-control" type="date">
                     <button id="apodDateInputBtn" class="btn btn-outline-secondary" onclick="getAPOD('onclick')">submit</button>
                 </div>
             </div>
 
-            <div class="col-md-4 border">
-                <h4>Enter Date of Birth</h4>
+            <div class="col-md-5 py-2 border">
+                <h4>Get all your Birthday APODs</h4>
                 <div class="input-group">
-                    <label class="input-group-text" for="birthdayInput">Select date</label>
+                    <label class="input-group-text" for="birthdayInput">Select DOB</label>
                     <input id="birthdayInput" class="form-control" type="date">
                     <button id="birthdayInputBtn" class="btn btn-outline-secondary" onclick="getBirthdayAPODs()">submit</button>
                 </div>
