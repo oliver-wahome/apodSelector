@@ -70,31 +70,36 @@ window.onload = getAPOD('onload');
 //or since the date of the first APOD(June 1995)
 function getBirthdayAPODs(){
     let bday = document.getElementById("birthdayInput").value;
-    const bdayDate = new Date(bday);
-    let bdYear = bdayDate.getFullYear();
-    var bdMonth = bdayDate.getMonth();
-    let bdDay = bdayDate.getDate();
-    const currentDate = new Date();
-    let curYear = currentDate.getFullYear();
-    let curMonth = currentDate.getMonth();
-    let curDay = currentDate.getDate();
-    const firstApodDate = new Date("1995-06-16");
-    let apodYear = firstApodDate.getFullYear();
-    let apodMonth = firstApodDate.getMonth();
-    let apodDay = firstApodDate.getDate();
+    let bdayDate = new Date(bday);
+    //if someone is born before 1995 then convert their bdayDate year to 1995
+    //this makes the logic for checking if to start their apods in '95 or '96 easier
+    if(Number(bdayDate.getFullYear()) < 1995){
+        bdayDate = new Date(`1995${bday.substring(4)}`);
+    }
+    
+    let currentDate = new Date();
+    let firstApodDate = new Date("1995-06-16");
 
-    //console.log(bdayDate.toString());
-    //getting every birthday after June 16th 1995
-    if(bdYear >= apodYear){
-        while(bdYear <= curYear){
-            console.log(`${bdDay}/${months[bdMonth]}/${bdYear}`);
-            bdYear += 1;
+    
+    //getting every birthday after June 15th 1995 and outputting their apod to the DOM
+    //This includes the ones which were converted to '95 and come after 15th June 1995
+    if(bdayDate.getTime() >= firstApodDate.getTime()){
+        var counterYear = bdayDate.getFullYear();
+        
+        while(bdayDate.getTime() <= currentDate.getTime()){
+            console.log(bdayDate.toDateString());
+            counterYear += 1;
+            bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
         }
     }
     else{
-        while(counterYear <= curYear){
-            console.log(`${bdDay}/${months[bdMonth]}/${bdYear}`);
-            bdYear += 1;
+        var counterYear = 1996;
+        bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`)
+
+        while(bdayDate.getTime() <= currentDate.getTime()){
+            console.log(bdayDate.toDateString());
+            counterYear += 1;
+            bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
         }
     }
 }
