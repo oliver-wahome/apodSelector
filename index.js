@@ -80,7 +80,7 @@ function addBdayApodColumns(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, ap
         content += '</div>';
     content += '</div>';
 
-    document.getElementById("bdayApodList").innerHTML = content;
+    document.getElementById("bdayApodList").innerHTML += content;
 }
 
 
@@ -120,8 +120,11 @@ function fetchBdayApodData(url, loopDate, loopCount){
 //this function fetches data from NASA API to get APODs released on a user's bday since their DOB
 //or since the date of the first APOD(June 1995)
 function getBirthdayAPODs(){
+    //changing apodTitle, removing today's apod and removing previous bdayApodList if there was any
     document.getElementById("apodTitle").innerText = 'Birthday APOD list';
     document.getElementById("currentApodRow").style.display = 'none';
+    document.getElementById("bdayApodList").innerHTML = '';
+    
     let bday = document.getElementById("birthdayInput").value;
     let bdayDate = new Date(bday);
     //if someone is born before 1995 then convert their bdayDate year to 1995
@@ -144,14 +147,13 @@ function getBirthdayAPODs(){
             let loopDate = `${bdayDate.getFullYear()}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`;
             let url = 'https://api.nasa.gov/planetary/apod?api_key=GTgDxMg6JEfbQPwYdlLPfygL8XDmEVWp8HWkzNnm&date='+loopDate;
 
-            fetchBdayApodData(url, loopDate, loopCount)
-            .then(() => {
-                console.log(bdayDate.toDateString());
+            setTimeout(fetchBdayApodData(url, loopDate, loopCount), 1000);
+            
+            console.log(bdayDate.toDateString());
 
-                loopCount += 1;
-                counterYear += 1;
-                bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
-            })
+            loopCount += 1;
+            counterYear += 1;
+            bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
         }
     }
     else{
