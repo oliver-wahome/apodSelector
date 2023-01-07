@@ -11,6 +11,10 @@ function getAPOD(checkEvent){
     let apodTitle = '';
     let apodDate = '';
     let apodDateStr = '';
+    //clearing the bdayApodList in case it was output
+    document.getElementById("bdayApodList").innerHTML = '';
+    //making sure apodRow is displayed
+    document.getElementById("currentApodRow").style.display = 'flex';
 
     //checking whether the function was called onload or onclick
     if(checkEvent === 'onload'){
@@ -48,13 +52,19 @@ function getAPOD(checkEvent){
                 //get picture hd url
                 document.getElementById("apodImage").src = data.hdurl;
             }
-            else if(data.media.type === 'video'){
+            else if(data.media_type === 'video'){
                 //only displaying the iframe element
                 document.getElementById("apodImage").style.display = 'none';
                 document.getElementById("apodVideo").style.display = 'block';
                 //get video url
                 document.getElementById("apodVideo").src = data.url;
             }
+            else{
+                //display neither the iframe nor the image
+                document.getElementById("apodImage").style.display = 'none';
+                document.getElementById("apodVideo").style.display = 'none';
+            }
+
 
             document.getElementById("apodName").innerText = data.title;
             document.getElementById("apodDescription").innerText = data.explanation;
@@ -66,7 +76,8 @@ function getAPOD(checkEvent){
 //this statement calls the getAPOD function onload of the window
 window.onload = getAPOD('onload');
 
-function addBdayApodColumns(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apodDate, loopCount){
+//function to add bdayApodColumn to bdayApodList element
+function addBdayApodColumn(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apodDate, loopCount){
     var content = '';
 
     content += '<div id="bdayApod'+loopCount+'" class="col-md-4 p-2">';
@@ -83,48 +94,40 @@ function addBdayApodColumns(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, ap
     document.getElementById("bdayApodList").innerHTML += content;
 }
 
-
-function fetchBdayApodData(url, loopDate, loopCount){
+//function to fetch apod data for bdayApodsList
+//function is asynchronous so that the function can await the completion of fetch before continuing(solves asynchronous apod data bug)
+async function fetchBdayApodData(url, loopDate, loopCount){
     //fetching data from NASA API
-    fetch(url)
+    await fetch(url)
         .then(res => res.json())
         .then(data => {
             console.log(data);
             if(data.media_type === 'image'){
-                //only displaying the image element
-                // document.getElementById("bdayApodVideo").style.display = 'none';
-                // document.getElementById("bdayApodImage").style.display = 'block';
-                //get picture hd url
-                // document.getElementById("bdayApodImage").src = data.hdurl;
-
-                addBdayApodColumns('block', 'none', data.hdurl, '', data.title, loopDate, loopCount);
+                addBdayApodColumn('block', 'none', data.hdurl, '', data.title, loopDate, loopCount);
             }
-            else if(data.media.type === 'video'){
-                //only displaying the iframe element
-                // document.getElementById("bdayApodImage").style.display = 'none';
-                // document.getElementById("bdayApodVideo").style.display = 'block';
-                //get video url
-                // document.getElementById("bdayApodVideo").src = data.url;
-
-                addBdayApodColumns('none', 'block', '', data.url, data.title, loopDate, loopCount);
+            else if(data.media_type === 'video'){
+                addBdayApodColumn('none', 'block', '', data.url, data.title, loopDate, loopCount);
             }
-
-            // document.getElementById("bdayApodName").innerText = data.title;
-            // document.getElementById("bdayApodDate").innerText = loopDate;
+            else{
+                addBdayApodColumn('none', 'none', '', '', data.title, loopDate, loopCount);
+            }
         })
         .catch(err => {
             console.log(err);
         });
 }
 
+
+
 //this function fetches data from NASA API to get APODs released on a user's bday since their DOB
 //or since the date of the first APOD(June 1995)
-function getBirthdayAPODs(){
+//function is asynchronous so that the while loop can await the completion of fetchBdayData() before continuing.(solves asynchronous apod data bug)
+async function getBirthdayAPODs(){
     //changing apodTitle, removing today's apod and removing previous bdayApodList if there was any
     document.getElementById("apodTitle").innerText = 'Birthday APOD list';
     document.getElementById("currentApodRow").style.display = 'none';
     document.getElementById("bdayApodList").innerHTML = '';
-    
+
     let bday = document.getElementById("birthdayInput").value;
     let bdayDate = new Date(bday);
     //if someone is born before 1995 then convert their bdayDate year to 1995
@@ -147,8 +150,7 @@ function getBirthdayAPODs(){
             let loopDate = `${bdayDate.getFullYear()}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`;
             let url = 'https://api.nasa.gov/planetary/apod?api_key=GTgDxMg6JEfbQPwYdlLPfygL8XDmEVWp8HWkzNnm&date='+loopDate;
 
-            setTimeout(fetchBdayApodData(url, loopDate, loopCount), 1000);
-            
+            await fetchBdayApodData(url, bdayDate.toDateString(), loopCount);
             console.log(bdayDate.toDateString());
 
             loopCount += 1;
@@ -158,10 +160,17 @@ function getBirthdayAPODs(){
     }
     else{
         var counterYear = 1996;
-        bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`)
+        var loopCount = 1;
+        bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
 
         while(bdayDate.getTime() <= currentDate.getTime()){
+            let loopDate = `${bdayDate.getFullYear()}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`;
+            let url = 'https://api.nasa.gov/planetary/apod?api_key=GTgDxMg6JEfbQPwYdlLPfygL8XDmEVWp8HWkzNnm&date='+loopDate;
+
+            await fetchBdayApodData(url, bdayDate.toDateString(), loopCount);
             console.log(bdayDate.toDateString());
+            
+            loopCount += 1;
             counterYear += 1;
             bdayDate = new Date(`${counterYear}-${Number(bdayDate.getMonth())+1}-${bdayDate.getDate()}`);
         }
