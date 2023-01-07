@@ -81,13 +81,15 @@ function addBdayApodColumn(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apo
     var content = '';
 
     content += '<div id="bdayApod'+loopCount+'" class="col-md-4 p-2">';
-        content += '<div class="row bg-secondary">';
-            content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; object-position:50% 50%; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
-            content += '<iframe id="bdayApodVideo'+loopCount+'" style="object-fit:cover; height:200px; width:100%; display:'+vidDisplay+';" src="'+vidSrc+'" frameborder="0"></iframe>';
-        content += '</div>';
-        content += '<div class="row text-center p-3">';
-            content += '<h4 class="fw-semibold" id="bdayApodName'+loopCount+'">'+apodName+'</h4>';
-            content += '<p id="bdayApodDate'+loopCount+'">'+apodDate+'</p>';
+        content += '<div class="col" style="padding:0; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); overflow:hidden;">';
+            content += '<div class="row">';
+                content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; object-position:50% 50%; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
+                content += '<iframe id="bdayApodVideo'+loopCount+'" style="object-fit:cover; height:200px; width:100%; display:'+vidDisplay+';" src="'+vidSrc+'" frameborder="0"></iframe>';
+            content += '</div>';
+            content += '<div class="row text-center p-3">';
+                content += '<h4 class="fw-semibold" id="bdayApodName'+loopCount+'">'+apodName+'</h4>';
+                content += '<p id="bdayApodDate'+loopCount+'">'+apodDate+'</p>';
+            content += '</div>';
         content += '</div>';
     content += '</div>';
 
