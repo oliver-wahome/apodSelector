@@ -59,7 +59,7 @@
         </div>
 
         <div id="currentApodRow" class="row pb-3 px-2" style="display:flex; justify-content:center;">
-            <div class="col-md-8 rounded p-0 apodCard">
+            <div class="col-md-8 rounded p-0 apodCard" data-bs-toggle="modal" data-bs-target="#apodModal">
                 <div class="row bg-secondary">
                     <img id="apodImage" style="object-fit:cover; object-position:50% 50%; height:60vh; width:100%; display:none;" src="" alt="apod-image" />
                     <iframe id="apodVideo" style="object-fit:cover; height:60vh; width:100%; display:none;" src="" frameborder="0"></iframe>
@@ -75,6 +75,25 @@
         
         </div>
             
+    </div>
+
+    <!-- Modal Section onclick of an apod -->
+    <div class="modal fade" id="apodModal" tabindex="-1" aria-labelledby="apodModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="apodModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="index.js"></script>
