@@ -45,6 +45,9 @@ function getAPOD(checkEvent){
         .then(res => res.json())
         .then(data => {
             console.log(data);
+            //adding the data to localStorage for later use
+            localStorage.setItem("currentApod", JSON.stringify(data));
+
             if(data.media_type === 'image'){
                 //only displaying the image element
                 document.getElementById("apodVideo").style.display = 'none';
@@ -103,7 +106,14 @@ async function fetchBdayApodData(url, loopDate, loopCount){
     await fetch(url)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //getting an array of bdayApod object data and adding it to localStorage
+            let bdayApodList = [];
+            //parsing localStorage stringified to array as object data or assigning an empty array if localStorage empty
+            bdayApodList = JSON.parse(localStorage.getItem("bdayApodList")) || [];
+            bdayApodList.push(data);
+            //adding array to localStorage after stringifying array data
+            localStorage.setItem("bdayApodList", JSON.stringify(bdayApodList));
+            
             if(data.media_type === 'image'){
                 addBdayApodColumn('block', 'none', data.hdurl, '', data.title, loopDate, loopCount);
             }
@@ -129,6 +139,7 @@ async function getBirthdayAPODs(){
     document.getElementById("apodTitle").innerText = 'Birthday APOD list';
     document.getElementById("currentApodRow").style.display = 'none';
     document.getElementById("bdayApodList").innerHTML = '';
+    localStorage.removeItem("bdayApodList");
 
     let bday = document.getElementById("birthdayInput").value;
     let bdayDate = new Date(bday);
