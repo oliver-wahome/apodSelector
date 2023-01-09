@@ -29,7 +29,9 @@ function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDescI
 
 
     document.getElementById(apodTitleId).innerText = data.title;
-    document.getElementById(apodDescId).innerText = data.explanation;
+    if(apodDescId !== ""){
+        document.getElementById(apodDescId).innerText = data.explanation;
+    }
 }
 
 //this function fetches data of the current APOD(Astronomy Picture of the Day) from NASA API.
@@ -91,7 +93,7 @@ function addBdayApodColumn(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apo
     var content = '';
 
     content += '<div id="bdayApod'+loopCount+'" class="col-md-4 p-2">';
-        content += '<div class="col apodCard">';
+        content += '<div id="bdayApodCard'+loopCount+'" class="col apodCard" onclick="openApodModal(\'bdayApodCard'+loopCount+'\')">';
             content += '<div class="row">';
                 content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; object-position:50% 50%; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
                 content += '<iframe id="bdayApodVideo'+loopCount+'" style="object-fit:cover; height:200px; width:100%; display:'+vidDisplay+';" src="'+vidSrc+'" frameborder="0"></iframe>';
@@ -211,6 +213,9 @@ function openApodModal(idName){
         mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "");
     }
     else {
-        
+        let data = JSON.parse(localStorage.getItem("bdayApodList"))[Number(idName.slice(-1))-1];
+        //console.log(data);
+        //console.log(data[Number(idName.slice(-1))-1]);
+        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "apodModalDescription");
     }
 }
