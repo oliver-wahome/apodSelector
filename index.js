@@ -189,3 +189,13 @@ async function getBirthdayAPODs(){
         }
     }
 }
+
+//open the apodModal onclick of an apodCard
+function openApodModal(idName){
+    //code to open a bootstrap modal using JavaScript
+    const apodModal = new bootstrap.Modal(document.getElementById("apodModal"), { keyboard:false });
+    const apodCard = document.getElementById(idName); 
+    apodModal.show(apodCard);
+
+    
+}
