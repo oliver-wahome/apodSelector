@@ -213,9 +213,8 @@ function openApodModal(idName){
         mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "");
     }
     else {
-        let data = JSON.parse(localStorage.getItem("bdayApodList"))[Number(idName.slice(-1))-1];
-        //console.log(data);
-        //console.log(data[Number(idName.slice(-1))-1]);
+        let data = JSON.parse(localStorage.getItem("bdayApodList"))[Number(idName.slice(12))-1];
+        console.log(data);
         mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "apodModalDescription");
     }
 }
