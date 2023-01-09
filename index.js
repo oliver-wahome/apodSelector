@@ -6,7 +6,7 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 
 //function to check for the media type of currentApod data and displaying either vid or img, or neither
 //(both for card and modal)
-function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDescId){
+function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDateId, apodDescId){
     if(data.media_type === 'image'){
         //only displaying the image element
         document.getElementById(apodVideoId).style.display = 'none';
@@ -27,10 +27,15 @@ function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDescI
         document.getElementById(apodVideoId).style.display = 'none';
     }
 
-
     document.getElementById(apodTitleId).innerText = data.title;
+    document.getElementById(apodDateId).innerText = new Date(data.date).toDateString();
+    //adding or removing the modal description depending on whether the apodDescId var is empty or not
     if(apodDescId !== ""){
+        document.getElementById(apodDescId).style.display = 'block';
         document.getElementById(apodDescId).innerText = data.explanation;
+    }
+    else{
+        document.getElementById("apodModalDescription").style.display = 'none';
     }
 }
 
@@ -78,7 +83,7 @@ function getAPOD(checkEvent){
             //adding the data to localStorage for later use
             localStorage.setItem("currentApod", JSON.stringify(data));
 
-            mediaTypeChecker(data, "apodVideo", "apodImage", "apodName", "apodDescription");
+            mediaTypeChecker(data, "apodVideo", "apodImage", "apodName", "apodDate", "apodDescription");
 
         })
         .catch(err => {
@@ -92,7 +97,7 @@ window.onload = getAPOD('onload');
 function addBdayApodColumn(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apodDate, loopCount){
     var content = '';
 
-    content += '<div id="bdayApod'+loopCount+'" class="col-md-4 p-2">';
+    content += '<div id="bdayApod'+loopCount+'" class="col-md-4 mb-4">';
         content += '<div id="bdayApodCard'+loopCount+'" class="col apodCard" onclick="openApodModal(\'bdayApodCard'+loopCount+'\')">';
             content += '<div class="row">';
                 content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; object-position:50% 50%; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
@@ -210,11 +215,11 @@ function openApodModal(idName){
     if(idName === 'apodCard0'){
         let data = JSON.parse(localStorage.getItem("currentApod"));
         //console.log(currentApod);
-        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "");
+        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "apodModalDate", "");
     }
     else {
         let data = JSON.parse(localStorage.getItem("bdayApodList"))[Number(idName.slice(12))-1];
         console.log(data);
-        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "apodModalDescription");
+        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "apodModalDate", "apodModalDescription");
     }
 }
