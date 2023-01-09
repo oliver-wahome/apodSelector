@@ -4,6 +4,34 @@
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+//function to check for the media type of currentApod data and displaying either vid or img, or neither
+//(both for card and modal)
+function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDescId){
+    if(data.media_type === 'image'){
+        //only displaying the image element
+        document.getElementById(apodVideoId).style.display = 'none';
+        document.getElementById(apodImageId).style.display = 'block';
+        //get picture hd url
+        document.getElementById(apodImageId).src = data.hdurl;
+    }
+    else if(data.media_type === 'video'){
+        //only displaying the iframe element
+        document.getElementById(apodImageId).style.display = 'none';
+        document.getElementById(apodVideoId).style.display = 'block';
+        //get video url
+        document.getElementById(apodVideoId).src = data.url;
+    }
+    else{
+        //display neither the iframe nor the image
+        document.getElementById(apodImageId).style.display = 'none';
+        document.getElementById(apodVideoId).style.display = 'none';
+    }
+
+
+    document.getElementById(apodTitleId).innerText = data.title;
+    document.getElementById(apodDescId).innerText = data.explanation;
+}
+
 //this function fetches data of the current APOD(Astronomy Picture of the Day) from NASA API.
 //It then adds that information to html elements to be output to the DOM
 function getAPOD(checkEvent){
@@ -44,33 +72,12 @@ function getAPOD(checkEvent){
     fetch(url)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             //adding the data to localStorage for later use
             localStorage.setItem("currentApod", JSON.stringify(data));
 
-            if(data.media_type === 'image'){
-                //only displaying the image element
-                document.getElementById("apodVideo").style.display = 'none';
-                document.getElementById("apodImage").style.display = 'block';
-                //get picture hd url
-                document.getElementById("apodImage").src = data.hdurl;
-            }
-            else if(data.media_type === 'video'){
-                //only displaying the iframe element
-                document.getElementById("apodImage").style.display = 'none';
-                document.getElementById("apodVideo").style.display = 'block';
-                //get video url
-                document.getElementById("apodVideo").src = data.url;
-            }
-            else{
-                //display neither the iframe nor the image
-                document.getElementById("apodImage").style.display = 'none';
-                document.getElementById("apodVideo").style.display = 'none';
-            }
+            mediaTypeChecker(data, "apodVideo", "apodImage", "apodName", "apodDescription");
 
-
-            document.getElementById("apodName").innerText = data.title;
-            document.getElementById("apodDescription").innerText = data.explanation;
         })
         .catch(err => {
             console.log(err);
@@ -197,5 +204,13 @@ function openApodModal(idName){
     const apodCard = document.getElementById(idName); 
     apodModal.show(apodCard);
 
-    
+    //adding apod data to modal from localStorage
+    if(idName === 'apodCard0'){
+        let data = JSON.parse(localStorage.getItem("currentApod"));
+        //console.log(currentApod);
+        mediaTypeChecker(data, "apodModalVideo", "apodModalImage", "apodModalLabel", "");
+    }
+    else {
+        
+    }
 }

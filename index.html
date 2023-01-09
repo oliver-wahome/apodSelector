@@ -79,16 +79,18 @@
 
     <!-- Modal Section onclick of an apod -->
     <div class="modal fade" id="apodModal" tabindex="-1" aria-labelledby="apodModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="apodModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="apodModalLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="apodModalImage" class="modal-body">
-                    
+                <div class="modal-body">
+                    <img class="w-100" id="apodModalImage" src="" alt="">
+                    <iframe class="w-100" id="apodModalVideo" src="" frameborder="0"></iframe>
+                    <p id="apodModalDescription"></p>
                 </div>
-                <div id="apodModalDescription" class="modal-footer">
+                <div class="modal-footer">
                     <button id="apodModalDownloadBtn" type="button" class="btn btn-primary">Download Image</button>
                 </div>
             </div>
