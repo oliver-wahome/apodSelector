@@ -3,6 +3,7 @@
  */
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const imageError = "https://cdn-icons-png.flaticon.com/512/955/955242.png";
 
 //function to check for the media type of currentApod data and displaying either vid or img, or neither
 //(both for card and modal)
@@ -23,8 +24,10 @@ function mediaTypeChecker(data, apodVideoId, apodImageId, apodTitleId, apodDateI
     }
     else{
         //display neither the iframe nor the image
-        document.getElementById(apodImageId).style.display = 'none';
+        document.getElementById(apodImageId).style.display = 'block';
         document.getElementById(apodVideoId).style.display = 'none';
+        //set src to picture of error loading image
+        document.getElementById(apodImageId).src = imageError;
     }
 
     document.getElementById(apodTitleId).innerText = data.title;
@@ -100,7 +103,7 @@ function addBdayApodColumn(imgDisplay, vidDisplay, imgSrc, vidSrc, apodName, apo
     content += '<div id="bdayApod'+loopCount+'" class="col-md-4 mb-4">';
         content += '<div id="bdayApodCard'+loopCount+'" class="col apodCard" onclick="openApodModal(\'bdayApodCard'+loopCount+'\')">';
             content += '<div class="row">';
-                content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; object-position:50% 50%; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
+                content += '<img id="bdayApodImage'+loopCount+'" style="object-fit:cover; height:200px; width:100%; display:'+imgDisplay+';" src="'+imgSrc+'" alt="bday-apod-image" />';
                 content += '<iframe id="bdayApodVideo'+loopCount+'" style="object-fit:cover; height:200px; width:100%; display:'+vidDisplay+';" src="'+vidSrc+'" frameborder="0"></iframe>';
             content += '</div>';
             content += '<div class="row text-center p-3">';
@@ -135,7 +138,7 @@ async function fetchBdayApodData(url, loopDate, loopCount){
                 addBdayApodColumn('none', 'block', '', data.url, data.title, loopDate, loopCount);
             }
             else{
-                addBdayApodColumn('none', 'none', '', '', data.title, loopDate, loopCount);
+                addBdayApodColumn('block', 'none', imageError, '', data.title, loopDate, loopCount);
             }
         })
         .catch(err => {
